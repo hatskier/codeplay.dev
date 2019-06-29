@@ -1,0 +1,10 @@
+{
+  "name": "codeplay",
+  "start_url": "https://codeplay.dev",
+  "description": "Learn code by playing",
+  "icons": [{
+    "src": "https://s3.amazonaws.com/alcourses.codeplay/logo.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }]
+}
