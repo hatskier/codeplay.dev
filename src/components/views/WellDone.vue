@@ -39,7 +39,7 @@ export default {
   methods: {
     async saveSolved() {
       await this.state.addSolvedLesson(this.lessonName)
-      location.href = '#/lessons/Instructions' // TODO solve it better for other units
+      location.href = '#/dashboard'
     }
   }
 }
