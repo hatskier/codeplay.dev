@@ -79,7 +79,6 @@ export default {
     },
     elements() {
       let debts = Utils.dictToListWithIds(this.state.debts)
-      console.log(this.$route)
       if (this.$route.params.contact) {
         // Filtering debts (only for some user)
         const contactObj = Utils.dictToListWithIds(this.state.contacts)

@@ -3,7 +3,7 @@
   <div id="nav-bar">
     <!-- <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"> -->
     <div class="mdl-layout mdl-layout--fixed-header">
-      <div class="mdl-layout__header navbarcolour">
+      <div class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
           <!-- <span class="mdl-layout-title"><img class="logo" src="../../public/logo.svg" height="48px"/>Homelink</span> -->
@@ -12,10 +12,12 @@
           
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <NavBarLink name="debts" defaultRoute/>
-            <NavBarLink name="contacts"/>
+            <NavBarLink name="dashboard" defaultRoute/>
+            <NavBarLink name="units" />
+            <NavBarLink name="lessons" />
+            <!-- <NavBarLink name="contacts"/> -->
             <!-- <NavBarLink name="dashboard" defaultRoute/> -->
-            <NavBarLink name="shop-lists"/>
+            <!-- <NavBarLink name="shop-lists"/> -->
           </nav>
 
           <div class="mdl-layout-spacer"></div>
@@ -107,6 +109,7 @@ export default {
 
 .user-and-state {
   text-align: center;
+  margin-right: 20px;
 }
 
 a {
@@ -116,6 +119,7 @@ a {
 
 .logo {
   height: 60px;
+  margin-right: 20px;
 }
 
 .selected {
@@ -134,5 +138,9 @@ a {
 .mdl-navigation__link:hover {
   background-color: #114462;
   transition: 0.3s;
+}
+
+.mdl-layout__header-row {
+  background: black;
 }
 </style>

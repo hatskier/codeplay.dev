@@ -1,20 +1,36 @@
 <template>
   <div>
-    <h2 class="centered">Contacts</h2>
+    <!-- <h2 class="centered">Units</h2> -->
+    
     <Cards
       v-bind:elements="elements"
-      v-bind:addable="false"
-      v-bind:editable="false"
-      v-bind:removable="false"
     />
 
   </div>
 </template>
 
 <script>
-import EditableListTemplate from '../EditableListTemplate'
+// import EditableListTemplate from '../EditableListTemplate'
+import Cards from '../cards/Cards'
 import State from '../../modules/state'
-import Utils from '../../modules/utils'
+// import Utils from '../../modules/utils'
+import Lessons from '../../modules/lessons'
+
+function redirectToLessons(unitName) {
+  return function () {
+    console.log(`Redirecting to lessons for ${unitName}`);
+    // context.$router.push({ name: 'lessons', params: { unit: unitName } })
+    location.href = `#/lessons/${unitName}`;
+  }
+}
+
+function getProgress(units, context) {
+  return units.map(unit => {
+    unit.progress = context.state.getProgressForUnit(unit.name)
+    unit.clickHook = redirectToLessons(unit.name)
+    return unit
+  })
+}
 
 export default {
   name: 'Units',
@@ -31,12 +47,7 @@ export default {
 
   computed: {
     elements() {
-      [
-        {
-          name: 'Instructions',
-          img: 'https://s3.amazonaws.com/alcourses.codeplay/common/computer-meme.png'
-        }
-      ]
+      return getProgress(Lessons.units, this)
     }
   },
 

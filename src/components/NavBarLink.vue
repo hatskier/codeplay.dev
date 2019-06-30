@@ -2,7 +2,7 @@
   <router-link v-bind:to="'/' + name">
     <a
       class="mdl-navigation__link"
-      v-bind:class="{selected: (path == '/' + name || (defaultRoute && path == '/') )}"
+      v-bind:class="{selected: (path.startsWith('/' + name) || (defaultRoute && path == '/') )}"
     >
       {{ Utils.capitalizeFirst(name) }}
     </a>

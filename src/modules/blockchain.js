@@ -1,8 +1,7 @@
 import blockstack from 'blockstack'
 
 const FILENAMES = {
-  contacts: 'dfmapp_contacts.json',
-  debts: 'dfmapp_debts.json'
+  solvedLessons: 'codeplay_solved_lessons.json',
 }
 
 const appConfig = new blockstack.AppConfig(['store_write', 'publish_data'])
@@ -61,19 +60,11 @@ export default {
     location.reload()
   },
 
-  async getContacts() {
-    return await readObjFromFile(FILENAMES.contacts)
+  async getSolvedLessons() {
+    return await readObjFromFile(FILENAMES.solvedLessons)
   },
 
-  async getDebts() {
-    return await readObjFromFile(FILENAMES.debts)
-  },
-
-  async saveContacts(contacts) {
-    await saveObjectToFile(contacts, FILENAMES.contacts)
-  },
-
-  async saveDebts(debts) {
-    await saveObjectToFile(debts, FILENAMES.debts)
+  async saveSolvedLessons(solvedLessons) {
+    await saveObjectToFile(solvedLessons, FILENAMES.solvedLessons)
   },
 }
