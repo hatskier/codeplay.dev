@@ -12,7 +12,10 @@ let State = {
   // Methods
   async loadStateFromBlockchain() {
     console.log('Loading state from blockchain')
-    const lessons = await Blockchain.getSolvedLessons()
+    let lessons = await Blockchain.getSolvedLessons()
+    if (!lessons) {
+      lessons = []
+    }
     Vue.set(this, 'solvedLessons', lessons)
   },
 
@@ -33,6 +36,9 @@ let State = {
   async addSolvedLesson(lessonName) {
     let newSolvedLessons = _.clone(this.solvedLessons)
     // To avoid duplication
+    if (!newSolvedLessons) {
+      newSolvedLessons = []
+    }
     if (!newSolvedLessons.includes(lessonName)) {
       newSolvedLessons.push(lessonName)
     }
