@@ -19,6 +19,10 @@ Vue.directive('mdl', {
   inserted: el => Mdl.componentHandler.upgradeElement(el)
 })
 
+// Redirecting to the newest version of the app
+// to codenplay.io
+location.href = 'https://codenplay.io'
+
 const routes = [
   { path: '/units', component: Units },
   { path: '/', component: Dashboard },
