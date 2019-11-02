@@ -1,8 +1,30 @@
 <!doctype html>
 <html>
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145552506-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-145552506-1');
+    </script>
+
+
     <meta charset="utf-8">
-    <title>Codeplay</title>
+    <link rel="shortcut icon" type="image/png" href="./favicon.ico"/>
+    <title>Codenplay - task</title>
+    <script>
+      (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:1441531,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
   </head>
   <body>
 
@@ -11,12 +33,27 @@
       <script src="./tour.css.bundle.js"></script>
 
       <!-- TODO in future it should be loaded from node_modules -->
+
+      <!-- Toastr notifications -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+      <!-- Jquery -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+      <!-- Jquery modal -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+      <!-- Material design light -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+      <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
       <style>
         /* CUSTOM MANUAL STYLES */
+
+        #top-container,#bottom-container,#control-bar {
+          display: none; /* for image preloading spinner */
+        }
 
         #top-container {
           height: 500px;
@@ -100,6 +137,7 @@
 
         .clickable:hover {
           cursor: pointer;
+          /* transition: 0.5; */
           opacity: 0.7;
         }
 
@@ -110,10 +148,32 @@
 
         #overlay {
           position: fixed;
-          width: 100%;
-          height: 100%;
-          background: white url(img/spinner2.svg) center center no-repeat;
+          width: 100vw;
+          height: 100vh;
+          /* background: white url(img/spinner2.svg) center center no-repeat; */
           opacity: 1;
+          text-align: center;
+        }
+
+        img#spinner {
+          margin-top: 45vh;
+          height: 10vh;
+        }
+
+        #loading-progress {
+          font-family: "Courier New", monospace;
+          color: #00A5FB;
+          margin-top: 2vh;
+          font-size: 3vh;
+        }
+
+        /* TODO - maybe remove animated styles - if it is not used */
+        .animate {
+          transition: all .5s ease-in-out;
+          transition-property: all;
+          transition-duration: 0.5s;
+          transition-timing-function: ease-in-out;
+          transition-delay: 0s;
         }
 
         .doc-method-name {
@@ -194,18 +254,120 @@
           color: #ff3c2c;
         }
 
+        /* Notifications styling */
+
+        .toast {
+          opacity: 0.97 !important;
+        }
+
+        .error-notification-img {
+          width: 230px;
+        }
+
+        .error-notification-text {
+          margin-top: 10px;
+        }
+
+        @font-face {
+          font-family: 'Product Sans';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+        }
+
+        /* .back-to-home-container .back-to-main-text {
+          font-size: 12px;
+          text-decoration: none !important;
+        } */
+
+        .main-page-button-container {
+          position: fixed;
+          top: 5px;
+          left: 5px;
+        }
+
+        .hidden-solver-button-container {
+          position: fixed;
+          bottom: 5px;
+          left: 5px;
+          opacity: 0;
+        }
+
+        .close-icon {
+          width: 30px;
+        }
+
+        /* Success modal styling */
+
+        #success-modal a {
+          color: #4285F4;
+          cursor: pointer;
+        }
+
+        #success-modal {
+          display: none;
+          text-align: center;
+          font-family: Product Sans;
+          color: #4285F4;
+        }
+
+        #success-modal-img {
+          margin: auto;
+          /* width: 150px; */
+          height: 250px;
+          margin-bottom: 15px;
+        }
+
+        #next-lesson-button {
+          padding-top: 20px;
+          padding-bottom: 20px;
+          background: rgb(112, 180, 73);
+          cursor: pointer;
+          margin: auto;
+          margin-bottom: 20px;
+          width: 200px;
+          border-radius: 5px;
+        }
+
+        #next-lesson-button a {
+          font-size: 30px;
+          color: white;
+          text-decoration: none;
+          border-radius: 3px;
+        }
+
       </style>
 
       <!-- This div could be used for toastr message customization -->
       <!-- <div id="toast-container"></div> -->
 
-      <div id="overlay"></div>
+      <div id="overlay">
+        <img id="spinner" src="img/spinner2.svg">
+        <div id="loading-progress"><span id="percentage-loaded">1</span>%</div>
+      </div>
+
+      <!-- <div id="success-modal" class="modal">
+        <h2>Well done!</h2>
+        <img id="success-modal-img" src="https://s3.amazonaws.com/alcourses.codeplay/common/done.gif">
+        <div onclick="goToTheNextLesson()" id="next-lesson-button">
+          <a>
+            Next
+          </a>
+        </div>
+
+        <div>
+          <a href="index.html">
+            Back to main
+          </a>
+        </div>
+      </div> -->
     
       <div id="top-container">
         <div id="screen-view-container">
-          <div id="screen-view"></div>
+          <div id="screen-view">
+          </div>
         </div>
-        <div id="control-container" >
+        <div class="notranslate" id="control-container" >
           <div id="code-editor"></div>
         </div>
       </div>
@@ -219,9 +381,7 @@
         <div class="window">
 
           <div class="terminal">
-            <p class="log" id="logs">
-              
-            </p>
+            <p class="log" id="logs"></p>
 
             <div id="documentation-container">
               <h4 class="doc centered-header">Docs</h4>
@@ -231,13 +391,30 @@
         </div>
       </div>
 
+      <div class="main-page-button-container">
+        <a href="javascript:history.back()">
+          <img class="close-icon md-icon clickable" src="./img/back-circle.svg">
+        </a>
+      </div>
+
+      <div class="hidden-solver-button-container">
+        <img class="close-icon md-icon hidden-solver-button" onclick="solveTask()" src="./img/back-circle.svg">
+      </div>
+
       <div id="control-bar">
+        <!-- <div>
+          <a href="index.html">
+            <img class="home-icon md-icon clickable" src="./img/blue-home.svg">
+          </a>
+        </div> -->
+
         <div>
-          <img id="toggle-terminal-mode-button" class="md-icon clickable" onclick="toggleTerminalMode()" src="./img/code-icon-blue.svg">
+          <a href="https://www.youtube.com/watch?v=4oaV1TfcxIo" target="_blank">
+            <!-- <img id="video-tutorial-button" class="md-icon clickable" src="./img/video-icon-blue.svg"> -->
+            <img class="md-icon clickable" src="./img/blue-help.png">
+          </a>
         </div>
-        <div>
-          <img id="help-button" class="md-icon clickable" onclick="help()" src="./img/blue-help.png">
-        </div>
+
         <div>
           <img id="settings-button" class="md-icon clickable" onclick="toggleSpeed()" src="./img/blue-settings.png">
         </div>
@@ -249,6 +426,11 @@
         <div id="run-button" class="clickable" onclick="run()">
           <img class="md-icon" src="./img/white-play-icon.png">
         </div>
+      </div>
+
+      <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
       </div>
 
     </div>
