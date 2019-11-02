@@ -1,7 +1,13 @@
 <template>
   <div>
-    <h3 v-if="!unit">All lessons</h3>
-    <h3 v-if="unit">Unit: {{ unit }}</h3>
+    <h3 class="centered" v-if="!unit">All lessons</h3>
+    <h3 class="centered" v-if="unit">Unit: {{ unit }}</h3>
+    <p class="lessons-description">
+      Here is the list of game-based tasks,
+      which allow you to understand {{ unit || 'programming' }}.
+      Click on one of them to start coding and playing.
+      We recommend to solve them in order, but it's up to you.
+    </p>
     
     <h6 v-if="elements.length == 0">
       This unit has no lessons yet
@@ -78,6 +84,12 @@ export default {
 </script>
 
 <style scoped>
+  .lessons-description {
+    max-width: 600px;
+    /* margin-left: 20px; */
+    margin: auto;
+    text-align: center;
+  }
   h2,h3,h4,h5,h6 {
     margin: 20px;
   }

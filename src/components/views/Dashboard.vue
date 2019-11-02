@@ -3,8 +3,11 @@
     <h2 class="centered">Welcome to codeplay</h2>
     <div id="top-container" class="centered">
       <p>
-        Using codeplay you can learn coding by playing.
-        All your progress is saved in blockstack storage and is private by default.
+        Welcome to our game-based environment. Here you can learn to code
+        by playing small games.
+        All your progress is saved in blockstack storage and is private.
+        See even more free tasks and video lessons
+        on <a target="_blank" href="https://codenplay.io">codenplay.io</a>.
       </p>
 
       <table>

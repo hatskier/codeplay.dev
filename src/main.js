@@ -21,7 +21,7 @@ Vue.directive('mdl', {
 
 // Redirecting to the newest version of the app
 // to codenplay.io
-location.href = 'https://codenplay.io'
+// location.href = 'https://codenplay.io'
 
 const routes = [
   { path: '/units', component: Units },
