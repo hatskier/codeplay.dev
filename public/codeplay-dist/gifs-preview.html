@@ -22,6 +22,7 @@
     <link rel="shortcut icon" type="image/png" href="./favicon.ico"/>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./gif-urls-preview.bundle.js"></script>
 
     <!-- modal-video -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/modal-video@2.4.2/lib/index.min.js"></script> -->
@@ -164,6 +165,15 @@
         }
       }
 
+      .gif-image {
+        width: 20vw;
+      }
+
+      h6 {
+        font-size: 10px;
+        width: 10vw;
+      }
+
     </style>
   </head>
   <body>
@@ -221,47 +231,24 @@
 
     <!-- <h3 class="centered blue-text">Try it now</h3> -->
 
-    <div id="app" class="mdl-grid">
-      <div v-for="task in tasks" class="mdl-cell mdl-cell--3-col">
-        <!-- <img v-bind:src="task.img"> -->
-        <a v-bind:href="`lesson.html?config=${task.id}&nextPage=index.html`">
-          <div
-            class="task-card-image mdl-card mdl-shadow--2dp"
-            v-bind:style="`background: url('${task.img}') center top / cover`"
-            >
-            <div class="mdl-card__title mdl-card--expand"></div>
-            <div class="mdl-card__actions">
-              <span class="task-card-image__filename">
-              </span>
-            </div>
-          </div>
-        </a>
-        <!-- <h4 v-bind:class="`${task.color}-text`"> -->
-        <a v-bind:href="`lesson.html?config=${task.id}&nextPage=index.html`">
-          <h5 class="clickable">
-            <!-- <img style="width: 30px;" src="file:///Users/alex/Downloads/done.png"> -->
-            <div v-bind:id="`done-gif-container-${task.id}`">
-              {{ task.title }}
-              <img v-if="solvedTasks[task.id]" class="done-gif" src="https://s3.amazonaws.com/alcourses.codeplay/common/done.gif" >
-            </div>
-            <div v-if="solvedTasks[task.id]" class="mdl-tooltip" v-bind:data-mdl-for="`done-gif-container-${task.id}`">
-              This task is solved. Great job!
-            </div>
-          </h5>
-          
-        </a>
-
+    <div id="app">
+      <h2>Success</h2>
+      <div class="mdl-grid" id="success-gifs-section">  
+        <div v-for="successGif in successGifs" class="mdl-cell mdl-cell--3-col">
+          <img class="gif-image" v-bind:src="successGif">
+          <h6>{{ successGif }}</h6>
+        </div>
       </div>
 
-      <div class="mdl-cell--12-col tutorial-header">
-        <h3 class="centered blue-text">Watch codenplay tutorial</h4>
+      <h2>Fail</h2>
+      <div class="mdl-grid" id="success-gifs-section">  
+        <div v-for="failGif in failGifs" class="mdl-cell mdl-cell--3-col">
+          <img class="gif-image" v-bind:src="failGif">
+          <h6>{{ failGif }}</h6>
+        </div>
       </div>
-
-      <div class="mdl-cell--8-col mdl-cell-2-offset video-tutorial-container">
-        <iframe width="917" height="516" src="https://www.youtube.com/embed/4oaV1TfcxIo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-
     </div>
+
 
     <footer class = "mdl-mini-footer">
 
@@ -307,54 +294,6 @@
      </footer>
 
     <script>
-      function sendEventToGA(category, action, label) {
-        // sendEventToGA('send', 'event', 'Task', 'AllCompleted', currentSolvedTasksStringified);
-        console.log(`Sending event to ga: ${category}, ${action}, ${label}`);
-        gtag('event', action, {
-          'event_label': label,
-          'event_category': category
-        });
-      }
-
-
-      function reportToGA(currentSolvedTasksStringified) {
-        try {
-          const solvedTasksKeyGA = 'codeplaySolvedTasksGA';
-          if (currentSolvedTasksStringified !== localStorage.getItem(solvedTasksKeyGA)) {
-            localStorage.setItem(solvedTasksKeyGA, currentSolvedTasksStringified);
-            sendEventToGA('Task', 'Completed', currentSolvedTasksStringified);
-
-            let currentSolvedTasks = JSON.parse(currentSolvedTasksStringified || "{}");
-            let numberOfSolvedTasks = Object.keys(currentSolvedTasks).length;
-            if (numberOfSolvedTasks == 7) {
-              sendEventToGA('Task', 'AlmostAllCompleted', currentSolvedTasksStringified);
-            }
-            if (numberOfSolvedTasks == 10) {
-              sendEventToGA('Task', 'AllCompleted', currentSolvedTasksStringified);
-            }
-          }
-          
-        } catch (e) {
-          console.error(e);
-          sendEventToGA('Error', 'occured', e.toString());
-        }
-      }
-      
-      function getSolvedTasks() {
-        const solvedTasksKey = 'codeplaySolvedTasks';
-        let solvedTasksFromLocalStorage = localStorage.getItem(solvedTasksKey);
-        if (solvedTasksFromLocalStorage) {
-          try {
-            reportToGA(solvedTasksFromLocalStorage);
-            return JSON.parse(solvedTasksFromLocalStorage);
-          } catch (e) {
-            console.error(e);
-            return {};
-          }
-        } else {
-          return {};
-        }
-      }
 
       const app = new Vue({
         el: '#app',
@@ -376,155 +315,8 @@
           }
         },
         data: {
-
-          solvedTasks: getSolvedTasks(),
-
-          tasks: [
-            {
-              title: 'Iron man',
-              id: 'ironMan',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/iron-man.png',
-              unit: 'Instructions',
-              color: 'green',
-            },
-            {
-              title: 'Labyrinth 1',
-              id: 'easyLabyrinth',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/caveman.jpg',
-              unit: 'Instructions',
-              color: 'green',
-            },
-            {
-              title: 'Labyrinth 2',
-              id: 'mediumLabyrinth',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/labyrinth-2.png',
-              unit: 'Instructions',
-              color: 'yellow',
-            },
-            {
-              title: 'Labyrinth 3',
-              id: 'hardLabyrinth',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/labyrinth.png',
-              unit: 'Instructions',
-              color: 'yellow',
-            },
-            // {
-            //   title: 'Achieve your goals',
-            //   id: 'workHard',
-            //   img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/achieve-goal.png',
-            //   unit: 'Instructions',
-            //   color: 'green',
-            // },
-            {
-              title: 'Battle 1',
-              id: 'oneWarrior',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/warrior.png',
-              unit: 'Instructions',
-              color: 'yellow',
-            },
-            {
-              title: 'Battle 2',
-              id: 'oneArcher',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/battle.png',
-              unit: 'Instructions',
-              color: 'yellow',
-            },
-            {
-              title: 'Battle 3',
-              id: 'twoWarriors',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/warrior-equipped.png',
-              unit: 'Instructions',
-              color: 'red',
-            },
-            {
-              title: 'Battle with dragon',
-              id: 'oneDragon',
-              img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/dragon.png',
-              unit: 'Instructions',
-              color: 'red',
-            },
-            // {
-            //   title: 'Var example',
-            //   id: 'varExample',
-            //   img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/dragon.png',
-            //   unit: 'Variables',
-            //   color: 'red',
-            // },
-
-            // Tasks for variables topic
-            {
-              title: 'Battle var',
-              id: 'battleVarDistance',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            {
-              title: 'Battle var with dragon',
-              id: 'battleVarDistanceWithDragon',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            {
-              title: 'Battle var with dragon 2',
-              id: 'battleVarDistanceWithVarDragon',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            {
-              title: 'battleVarWeaponSimpleWarrior',
-              id: 'battleVarWeaponSimpleWarrior',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            {
-              title: 'battleVarWeaponSimpleDragon',
-              id: 'battleVarWeaponSimpleDragon',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            {
-              title: 'battleVarWeaponSimpleWarrior',
-              id: 'battleVarWeaponSimpleWarrior',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            {
-              title: 'battleVarWeapon',
-              id: 'battleVarWeapon',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            {
-              title: 'battleVarWeaponAndDistance',
-              id: 'battleVarWeaponAndDistance',
-              img: 'https://codenplay.io/img/codenplay-logo.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-            // {
-            //   title: 'Speak better',
-            //   id: 'readMore',
-            //   img: 'https://s3.amazonaws.com/alcourses.codeplay/Tasks/speak.png',
-            //   unit: 'Instructions',
-            //   color: 'green',
-            // }
-
-            // Tasks for conditions topic
-            {
-              title: 'battleCondEnemyType',
-              id: 'battleCondEnemyType',
-              img: 'https://codenplay.io/img/3-code.png',
-              unit: 'Variables',
-              color: 'red',
-            },
-          ]
+          successGifs: gifUrls.success,
+          failGifs: gifUrls.fail, 
         }
       });
     </script>
